@@ -1,0 +1,21 @@
+{
+  "name": "ielts-scores-explained",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "bun run build:client",
+    "build:client": "bun build ./frontend/app.ts --outdir ./public --target browser --minify",
+    "dev": "bun run build:client && NODE_ENV=development bun --hot index.ts",
+    "start": "bun run build:client && bun index.ts",
+    "test": "bun test",
+    "typecheck": "bunx tsc --noEmit -p tsconfig.json",
+    "check": "bun run typecheck && bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}

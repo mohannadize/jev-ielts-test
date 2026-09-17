@@ -1,0 +1,17 @@
+# Build plan for Nixpacks (Dokploy).
+#
+# Nixpacks detects Bun from bun.lock and installs it; these phases pin the
+# production environment and make the build explicit rather than inferred.
+# The build step emits the browser bundle into public/, which the server serves.
+
+[variables]
+NODE_ENV = "production"
+
+[phases.install]
+cmds = ["bun install --frozen-lockfile"]
+
+[phases.build]
+cmds = ["bun run build"]
+
+[start]
+cmd = "bun run start"

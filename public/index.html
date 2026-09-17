@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>IELTS Scores Explained — Writing Task 2 band feedback</title>
+    <meta
+      name="description"
+      content="Write an IELTS Writing Task 2 answer and get a band for each of the four criteria, with the official descriptor that produced it, the probability behind every band, and how certain the judgment was."
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0e1116" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>IELTS Scores Explained</h1>
+        <p class="tagline">
+          Writing Task 2 practice. Your answer is read against the official public band descriptors,
+          and every band comes with the wording that produced it.
+        </p>
+      </div>
+      <div class="status" role="status" aria-live="polite">
+        <span class="dot" id="status-dot"></span>
+        <span id="status-text">Checking the service…</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel" aria-label="Question and answer">
+        <div class="panel-head">
+          <h2 id="task-heading">1. The question</h2>
+          <span class="head-actions">
+            <button type="button" class="ghost" id="new-task">New question</button>
+            <button type="button" class="ghost" id="own-task">Write my own</button>
+          </span>
+        </div>
+        <textarea
+          class="prompt"
+          id="prompt"
+          rows="4"
+          readonly
+          spellcheck="false"
+          aria-labelledby="task-heading"
+          aria-describedby="task-format task-requirement"
+        >Loading…</textarea>
+        <div class="prompt-meta">
+          <span id="task-format"></span>
+          <span id="task-requirement"></span>
+        </div>
+
+        <div class="panel-head">
+          <h2 id="response-heading">2. Your answer</h2>
+          <button type="button" class="ghost" id="sample">Insert sample essay</button>
+        </div>
+        <textarea
+          id="response"
+          spellcheck="false"
+          aria-labelledby="response-heading"
+          aria-describedby="wordcount"
+          placeholder="Write at least 250 words here."
+        ></textarea>
+
+        <div
+          class="progress"
+          id="word-progress"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="250"
+          aria-valuenow="0"
+          aria-label="Progress towards the 250-word minimum"
+        >
+          <span></span>
+        </div>
+        <div class="counter">
+          <span id="wordcount" aria-live="polite">0 words</span>
+          <span id="length-note"></span>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="primary" id="evaluate">Evaluate my writing</button>
+          <p class="shortcut">or press <kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>Enter</kbd></p>
+          <p class="hint" id="hint" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="panel results" id="results" aria-labelledby="result-heading">
+        <div class="results-head">
+          <h2 id="result-heading" tabindex="-1">3. Your bands</h2>
+          <span class="muted" id="result-note"></span>
+        </div>
+        <div class="empty" id="results-empty">
+          <p>Nothing scored yet.</p>
+          <p class="muted">
+            Write your answer and press <strong>Evaluate my writing</strong>. You will get a band for
+            each of the four criteria, the descriptor behind it, and the next band to aim for.
+          </p>
+        </div>
+        <div id="result-body" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="colophon">
+        Bands are produced by <strong>Jev</strong>, TypeSafe's System One model. They are model
+        estimates intended for practice and feedback — not an official IELTS result, and not a
+        substitute for a trained examiner.
+      </p>
+      <p class="colophon meta">
+        <span id="footer-model"></span>
+        <span id="footer-usage"></span>
+      </p>
+    </footer>
+
+    <noscript>
+      <p class="noscript">This page needs JavaScript to score your answer.</p>
+    </noscript>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,639 @@
+/* IELTS Scores Explained — mobile-first stylesheet.
+   Breakpoints: ≤900px single column, ≤560px phone tuning. */
+
+:root {
+  --bg: #0e1116;
+  --panel: #161b23;
+  --panel-2: #1c222c;
+  --line: #262e3a;
+  --text: #e7ecf3;
+  --muted: #93a1b5;
+  --accent: #6ea8fe;
+  --good: #4ec9a0;
+  --warn: #e8b04b;
+  --bad: #e57373;
+  --radius: 12px;
+  --gutter: 16px;
+  --tap: 44px;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow-wrap: break-word;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ header */
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 16px var(--gutter) 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+h1 {
+  font-size: clamp(19px, 5vw, 22px);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin: 0;
+}
+
+.tagline {
+  margin: 0;
+  color: var(--muted);
+  max-width: 70ch;
+  font-size: 14px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: none;
+}
+
+.dot.ok {
+  background: var(--good);
+}
+
+.dot.bad {
+  background: var(--bad);
+}
+
+/* ------------------------------------------------------------------ layout */
+
+main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding: 14px var(--gutter) 8px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 20px;
+    padding: 20px 26px 30px;
+  }
+
+  .topbar {
+    padding: 22px 26px 18px;
+  }
+
+  :root {
+    --gutter: 26px;
+  }
+
+  /* The results column is far longer than the form. Keeping the form in view
+     means a second attempt does not start with a scroll back to the top. Guarded
+     by a max-height so a tall form on a short screen stays fully reachable. */
+  main > .panel:first-of-type {
+    position: sticky;
+    top: 20px;
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+  }
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.panel-head + .panel-head {
+  margin-top: 22px;
+}
+
+.head-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------- form */
+
+.prompt,
+textarea {
+  width: 100%;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  /* 16px keeps iOS Safari from zooming the layout when the field is focused.
+     Declared as separate properties on purpose: `font: 16px/1.5 inherit` is
+     invalid (the family slot rejects the `inherit` keyword), and browsers drop
+     the whole shorthand, which silently leaves the UA default in place. */
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.prompt {
+  white-space: pre-wrap;
+  min-height: 104px;
+}
+
+#response {
+  min-height: 190px;
+}
+
+/* The question is fixed until the candidate unlocks it to write their own. */
+textarea.prompt[readonly] {
+  cursor: default;
+  resize: none;
+  overflow: hidden;
+}
+
+textarea.prompt[readonly]:focus {
+  outline: none;
+  border-color: var(--line);
+}
+
+textarea.prompt.custom {
+  border-color: var(--accent);
+}
+
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.prompt-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-top: 8px;
+}
+
+.progress {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+  margin: 10px 0 6px;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--warn);
+  border-radius: 999px;
+  transition: width 120ms ease-out, background-color 120ms ease-out;
+}
+
+.progress.done span {
+  background: var(--good);
+}
+
+.counter {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 12.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.counter .short {
+  color: var(--warn);
+}
+
+.counter .done {
+  color: var(--good);
+}
+
+/* ----------------------------------------------------------------- buttons */
+
+button {
+  font: inherit;
+  border-radius: 9px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  min-height: 38px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.primary {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 12px 16px;
+  background: var(--accent);
+  color: #0b1220;
+  border-color: var(--accent);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+button.primary:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--muted);
+  padding: 8px 12px;
+  font-size: 12.5px;
+}
+
+button.ghost:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.action-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shortcut {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.shortcut kbd {
+  font: inherit;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+
+.hint {
+  min-height: 19px;
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.hint.error {
+  color: var(--bad);
+}
+
+/* ---------------------------------------------------------------- results */
+
+.results {
+  scroll-margin-top: 12px;
+}
+
+.results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+#result-heading:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.empty p {
+  margin: 0 0 8px;
+}
+
+.empty p:last-child {
+  margin-bottom: 0;
+}
+
+.empty[hidden] {
+  display: none;
+}
+
+.checks-heading {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin: 20px 0 10px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.overall {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.overall-band {
+  font-size: clamp(34px, 12vw, 42px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.overall-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+.overall-rule {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.warnings {
+  border: 1px solid var(--warn);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: color-mix(in srgb, var(--warn) 8%, transparent);
+}
+
+.warnings p {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+
+.warnings p:last-child {
+  margin-bottom: 0;
+}
+
+.criterion {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: var(--panel-2);
+}
+
+.criterion-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.criterion-name {
+  font-weight: 600;
+}
+
+.criterion-band {
+  font-size: clamp(24px, 8vw, 28px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.criterion-sub {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin: 6px 0 10px;
+}
+
+.descriptor {
+  border-left: 3px solid var(--accent);
+  padding: 2px 0 2px 12px;
+  margin: 10px 0 12px;
+  font-size: 14px;
+}
+
+.next-target {
+  border-left: 3px solid var(--line);
+  padding: 2px 0 2px 12px;
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.dist {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 56px;
+  margin-top: 4px;
+}
+
+.dist .col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+  height: 100%;
+  min-width: 0;
+}
+
+.dist .bar {
+  width: 100%;
+  background: #2c3a4f;
+  border-radius: 3px 3px 0 0;
+  min-height: 2px;
+}
+
+.dist .bar.hot {
+  background: var(--accent);
+}
+
+.dist .tick {
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.dist .tick.hot {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.check {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--panel-2);
+}
+
+.check .label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.check .value {
+  font-size: 19px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.check .value.low {
+  color: var(--good);
+}
+
+.check .value.high {
+  color: var(--bad);
+}
+
+/* ----------------------------------------------------------------- footer */
+
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px var(--gutter) max(26px, env(safe-area-inset-bottom));
+  color: var(--muted);
+  font-size: 12.5px;
+  max-width: 92ch;
+}
+
+.colophon {
+  margin: 0;
+}
+
+.colophon.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.noscript {
+  margin: 0 var(--gutter) 20px;
+  padding: 12px 14px;
+  border: 1px solid var(--warn);
+  border-radius: 10px;
+  color: var(--warn);
+}
+
+/* ---------------------------------------------------- phone refinements */
+
+@media (max-width: 560px) {
+  .tagline {
+    font-size: 13.5px;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  /* Full-width row with the two secondary actions equally weighted, so neither
+     is a cramped tap target. */
+  .head-actions {
+    width: 100%;
+  }
+
+  .head-actions button {
+    flex: 1 1 0;
+    min-height: var(--tap);
+  }
+
+  /* Every control clears the 44px touch minimum on a phone, not just the primary
+     button and the header actions. */
+  button.ghost {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-height: var(--tap);
+  }
+
+  #response {
+    min-height: 170px;
+  }
+
+  .criterion {
+    padding: 12px;
+  }
+
+  .checks {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .checks .check:last-child {
+    grid-column: 1 / -1;
+  }
+
+  /* No physical keyboard to press it on. */
+  .shortcut {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
