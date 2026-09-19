@@ -7,6 +7,13 @@
 [variables]
 NODE_ENV = "production"
 
+# Nixpacks auto-detects a Node.js package alongside Bun for JS projects, but
+# this project is pure Bun and doesn't need it. Pinning setup to just "bun"
+# avoids pulling in a nodejs_XX package that may have been removed/EOL'd from
+# the pinned nixpkgs snapshot (e.g. nodejs_18 as of late 2025).
+[phases.setup]
+nixPkgs = ["bun"]
+
 [phases.install]
 cmds = ["bun install --frozen-lockfile"]
 
